@@ -1,3 +1,7 @@
+this is my answers to
+https://bartoszmilewski.com/2015/01/07/products-and-coproducts/
+in a literate idris2 file
+
 1. show that the terminal object is unique up to unique isomorphism
 
 equivalently: this says that: forall terminal objects x of a category, there
