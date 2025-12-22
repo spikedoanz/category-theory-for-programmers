@@ -1,3 +1,6 @@
+https://bartoszmilewski.com/2015/02/03/functoriality/
+
+
 # text
 
 ## the writer funtor
