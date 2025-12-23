@@ -28,6 +28,7 @@ cat > "$TMPFILE" << 'HEADER'
 \usepackage{tikz-cd}
 \usepackage{amssymb}
 \usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{nfold}
 \usepackage{quiver}
 \usepackage[active,tightpage]{preview}
 \PreviewEnvironment{tikzcd}
