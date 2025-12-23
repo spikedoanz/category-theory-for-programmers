@@ -136,12 +136,23 @@ the diagram proof
 5. Write a short essay about how you may enjoy writing down the evident
    diagrams needed to prove the interchange law.
 
-
-the interchange law says:
-
+```
 (β' ⋅ α') ∘ (β ⋅ α) = (β' ∘ β) ⋅ (α' ∘ α)
+```
 
+https://discord.com/channels/1273109592359964763/1291496717803327558/1452788978930421800
 
+i actually just did the thing. image attached.
+
+lhs
+(\b\a)      : GFa   -> GF'a     -> G'F'a    = GFa   -> G'F'a
+(\b'\a')    : G'F'a -> G'F''a   -> G''F''a  = G'F'  -> G''F''a
+
+rhs
+(\a'\a)     : GFa   -> GF'a     -> GF''a    = GFa   -> GF''a
+(\b'\b)     : GF''a -> G'F''a   -> G''F''a  = GF''a -> G''F''a
+
+notice that these glue into the same thing
 
 --------------------------------------------------------------------------------
 6. Create a few test cases for the opposite naturality condition of
@@ -158,4 +169,48 @@ and
 f :: String -> Int
 f x = read x
 ```
+
+```idris
+record Op r a where
+  constructor MkOp
+  runOp : a -> r
+
+interface Contravariant (f : Type -> Type) where
+  contramap : (b -> a) -> f a -> f b
+
+{r: Type} -> Contravariant (Op r) where
+  contramap f (MkOp g) = MkOp (\x => g (f x))
+
+predToStr : Op Bool a -> Op String a
+predToStr (MkOp g) = MkOp (\x => if g x then "T" else "F")
+
+op : Op Bool Int
+op = MkOp (\x => x > 0)
+
+f : String -> Int
+f x = cast x
+
+lhs = contramap f (predToStr op)
+rhs = predToStr (contramap f op)
+
+-- test with: runOp lhs "123" = runOp rhs "123"
+
+
+op' : Op Int Bool
+op' = MkOp (\x => if x then 42 else 0)
+
+f' : Int -> Bool
+f' x = (x == 42)
+
+
+showOp : Op Int a -> Op Bool a
+showOp (MkOp g) = MkOp (\x => g x == 42)
+
+lhs' = contramap f' (showOp op')
+rhs' = showOp (contramap f' op')
+
+-- runOp lhs' 42 = runOp rhs' 42
+
+```
+
 
