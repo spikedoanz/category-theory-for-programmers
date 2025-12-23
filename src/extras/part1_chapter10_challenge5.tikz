@@ -1,0 +1,46 @@
+% https://q.uiver.app/#q=WzAsMTMsWzAsNiwiYSJdLFszLDIsIkZhIl0sWzQsNiwiRidhIl0sWzUsMTAsIkYnJ2EiXSxbMTEsMSwiRydGYSJdLFs2LDAsIkdGYSJdLFs3LDQsIkdGJ2EiXSxbOSwzLCJHJydGYSJdLFsxMiw1LCJHJ0YnYSJdLFsxMCw3LCJHJydGJ2EiXSxbMTEsMTEsIkcnJ0YnJ2EiXSxbMTMsOSwiRydGJydhIl0sWzgsOCwiR0YnJ2EiXSxbMCwxLCJGIl0sWzAsMiwiRiciLDJdLFsxLDIsIlxcYWxwaGEiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFsyLDMsIlxcYWxwaGEnIiwwLHsiY29sb3VyIjpbMzAsNjAsNjBdfSxbMzAsNjAsNjAsMV1dLFsxLDUsIkYnIl0sWzUsNCwiXFxiZXRhIiwxLHsiY29sb3VyIjpbMTIwLDYwLDYwXX0sWzEyMCw2MCw2MCwxXV0sWzUsNiwiXFxhbHBoYSIsMSx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzEsNywiRycnIiwxXSxbNCw4LCJcXGFscGhhIiwxLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbNiw4LCJcXGJldGEiLDEseyJjb2xvdXIiOlsxMjAsNjAsNjBdfSxbMTIwLDYwLDYwLDFdXSxbOCw5LCJcXGJldGEnIiwxLHsiY29sb3VyIjpbMTgwLDYwLDYwXX0sWzE4MCw2MCw2MCwxXV0sWzIsOSwiRyIsMV0sWzcsOSwiXFxhbHBoYSIsMSx7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzksMTAsIlxcYWxwaGEnIiwxLHsiY29sb3VyIjpbMzAsNjAsNjBdfSxbMzAsNjAsNjAsMV1dLFs4LDExLCJcXGFscGhhJyIsMSx7ImNvbG91ciI6WzMwLDYwLDYwXX0sWzMwLDYwLDYwLDFdXSxbMTEsMTAsIlxcYmV0YSciLDEseyJjb2xvdXIiOlsxODAsNjAsNjBdfSxbMTgwLDYwLDYwLDFdXSxbMywxMCwiRycnIiwxXSxbNiwxMiwiXFxhbHBoYSciLDEseyJjb2xvdXIiOlszMCw2MCw2MF19LFszMCw2MCw2MCwxXV0sWzMsMTIsIkciLDFdLFsxMiwxMSwiXFxiZXRhIiwxLHsiY29sb3VyIjpbMTIwLDYwLDYwXX0sWzEyMCw2MCw2MCwxXV0sWzQsNywiXFxiZXRhJyIsMSx7ImNvbG91ciI6WzE4MCw2MCw2MF19LFsxODAsNjAsNjAsMV1dLFswLDMsIkYnJyIsMl0sWzIsNiwiRyIsMl0sWzEsNCwiRyciLDFdLFsyLDgsIkcnIiwxXSxbMywxMSwiRyciLDFdLFs1LDEyLCJcXGFscGhhJ1xcYWxwaGEiLDEseyJjdXJ2ZSI6NSwibGV2ZWwiOjIsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6InNxdWlnZ2x5In19fV0sWzEyLDEwLCJcXGJldGEnXFxiZXRhIiwxLHsibGV2ZWwiOjIsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6InNxdWlnZ2x5In19fV0sWzUsMTAsIihcXGJldGEnXFxhbHBoYScpXFxvKFxcYmV0YVxcYWxwaGEpXFxuZXdsaW5lIChcXGJldGEnXFxiZXRhKVxcbyhcXGFscGhhJ1xcYWxwaGEpIiwyLHsibGV2ZWwiOjMsImNvbG91ciI6WzMyMSwxMDAsNjBdfSxbMzIxLDEwMCw2MCwxXV0sWzUsOCwiXFxiZXRhXFxhbHBoYSIsMSx7ImxldmVsIjoyLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJzcXVpZ2dseSJ9fX1dLFs4LDEwLCJcXGJldGEnXFxhbHBoYSciLDEseyJsZXZlbCI6Miwic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoic3F1aWdnbHkifX19XV0=
+\[\begin{tikzcd}
+	&&&&&& GFa \\
+	&&&&&&&&&&& {G'Fa} \\
+	&&& Fa \\
+	&&&&&&&&& {G''Fa} \\
+	&&&&&&& {GF'a} \\
+	&&&&&&&&&&&& {G'F'a} \\
+	a &&&& {F'a} \\
+	&&&&&&&&&& {G''F'a} \\
+	&&&&&&&& {GF''a} \\
+	&&&&&&&&&&&&& {G'F''a} \\
+	&&&&& {F''a} \\
+	&&&&&&&&&&& {G''F''a}
+	\arrow["\beta"{description}, color={rgb,255:red,92;green,214;blue,92}, from=1-7, to=2-12]
+	\arrow["\alpha"{description}, color={rgb,255:red,214;green,92;blue,92}, from=1-7, to=5-8]
+	\arrow["{\beta\alpha}"{description}, Rightarrow, squiggly, from=1-7, to=6-13]
+	\arrow["{\alpha'\alpha}"{description}, curve={height=30pt}, Rightarrow, squiggly, from=1-7, to=9-9]
+	\arrow["{(\beta'\alpha')\o(\beta\alpha)\newline (\beta'\beta)\o(\alpha'\alpha)}"', color={rgb,255:red,255;green,51;blue,184}, Rightarrow, scaling nfold=3, from=1-7, to=12-12]
+	\arrow["{\beta'}"{description}, color={rgb,255:red,92;green,214;blue,214}, from=2-12, to=4-10]
+	\arrow["\alpha"{description}, color={rgb,255:red,214;green,92;blue,92}, from=2-12, to=6-13]
+	\arrow["{F'}", from=3-4, to=1-7]
+	\arrow["{G'}"{description}, from=3-4, to=2-12]
+	\arrow["{G''}"{description}, from=3-4, to=4-10]
+	\arrow["\alpha", color={rgb,255:red,214;green,92;blue,92}, from=3-4, to=7-5]
+	\arrow["\alpha"{description}, color={rgb,255:red,214;green,92;blue,92}, from=4-10, to=8-11]
+	\arrow["\beta"{description}, color={rgb,255:red,92;green,214;blue,92}, from=5-8, to=6-13]
+	\arrow["{\alpha'}"{description}, color={rgb,255:red,214;green,153;blue,92}, from=5-8, to=9-9]
+	\arrow["{\beta'}"{description}, color={rgb,255:red,92;green,214;blue,214}, from=6-13, to=8-11]
+	\arrow["{\alpha'}"{description}, color={rgb,255:red,214;green,153;blue,92}, from=6-13, to=10-14]
+	\arrow["{\beta'\alpha'}"{description}, Rightarrow, squiggly, from=6-13, to=12-12]
+	\arrow["F", from=7-1, to=3-4]
+	\arrow["{F'}"', from=7-1, to=7-5]
+	\arrow["{F''}"', from=7-1, to=11-6]
+	\arrow["G"', from=7-5, to=5-8]
+	\arrow["{G'}"{description}, from=7-5, to=6-13]
+	\arrow["G"{description}, from=7-5, to=8-11]
+	\arrow["{\alpha'}", color={rgb,255:red,214;green,153;blue,92}, from=7-5, to=11-6]
+	\arrow["{\alpha'}"{description}, color={rgb,255:red,214;green,153;blue,92}, from=8-11, to=12-12]
+	\arrow["\beta"{description}, color={rgb,255:red,92;green,214;blue,92}, from=9-9, to=10-14]
+	\arrow["{\beta'\beta}"{description}, Rightarrow, squiggly, from=9-9, to=12-12]
+	\arrow["{\beta'}"{description}, color={rgb,255:red,92;green,214;blue,214}, from=10-14, to=12-12]
+	\arrow["G"{description}, from=11-6, to=9-9]
+	\arrow["{G'}"{description}, from=11-6, to=10-14]
+	\arrow["{G''}"{description}, from=11-6, to=12-12]
+\end{tikzcd}\]

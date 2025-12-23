@@ -140,7 +140,7 @@ the diagram proof
 (β' ⋅ α') ∘ (β ⋅ α) = (β' ∘ β) ⋅ (α' ∘ α)
 ```
 
-https://discord.com/channels/1273109592359964763/1291496717803327558/1452788978930421800
+[my answer](src/extras/part1_chapter10_challenge5.tikz)
 
 i actually just did the thing. image attached.
 
