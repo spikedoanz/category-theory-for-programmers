@@ -144,21 +144,32 @@ __free construction__:
 __property__        :
     a judgement / predicate of an object that is either true (sometimes by
     construction) or false.
+    category theory isn't usually thought of as an intensional theory, but
+    in reality, because everything requires either an explicit existence of
+    a given morphism / construction, in effect is has judgemental semantics.
 
 __binary operation__: 
-    TODO  
+    a binary operation +/*/... takes two arguments and spits one thing out
 
-__binary relation__: 
-    TODO  
+__binary relation__:
+    a binary relation R between objects A and B holds if A is related to B in
+    some way. this 'way' is defined by the semantics of the relation in question,
+    such as ordering, morphisms, ...
 
 __reflexive__:
-    TODO
+    a binary relation is reflexive if the relation R relates every object A to itself.
 
 __transitive__:
-    TODO
+    a binary relation R is reflexive if for all objects A B C
+    A R B and B R C implies A R C
 
 __antisymmetric__:
-    TODO
+    a binary relation R is antisymmetric if forall objects A B
+    A R B and B R A implies A '=' B
+    note: as always 'equality' here is extremely load bearing and often will
+    not be true in practice. especially in category theory where equality
+    isn't a great topic of discussion. it's usually better to think of
+    isomorphism in our context.
 
 __equivalence relation__:
     it's a property. has some extra semantics if you're working with sets (i
@@ -250,64 +261,250 @@ __kleisli category__        : denoted C_T or Kl(T)
 
 # chapter 5: products and coproducts
 
-__initial objects__
-__terminal objects__
-__dual__
-__co-__
-__products__
-__coproducts__
+__initial objects__ :
+    an initial object has an unique morphism from it to every object in the
+    category. this includes itself, for which the morphism is Id.
+
+__terminal objects__:
+    a terminal object has has an unique morphism from every object in the
+    category to it. including itself, which is Id, etc etc.
+    note: for both terminal and initial objects, because the associated
+    morphisms are unique, we can `identify` all of the objects in the category
+    by the morphisms they have to/from its initial/terminal objects. identify
+    here is used a bit loosely, but know that it is not as strict as isomophism.
+
+__dual__            :
+    a construction in category theory is dual to another if the directionality of
+    all morphisms are reversed.
+
+__co-__             :
+    alias for the dual of a construction. product is dual to coproduct ... 
+
+__products__        :
+    for two objects A and B, a product consists of
+    1. the object C: A x B
+    2. two projection morphisms p1 and p2 from C to A and B respectively
+        note: these morphisms are also somtimes called 'left' and 'right'
+    which satisfies the [universal property`: for any object C' with
+    morphisms 
+        f: C->A and g: C->B s.t
+        p1 o (f, g) = f
+        p2 o (f, g) = g
+    in other words, the product is the `most general` object that maps
+    into both A and B.
+
+__coproducts__      :
+    the dual of product, consists of
+    1. the object A + B
+    2. two injective morphisms i1: A -> A+B and i2: B ->A+B
+    satisfying the universal propertytwo morphisms f: A+B -> A and g: A+B -> B
+    such that there exists a **unique** morphism [f,g]: A+B -> C
+    such that [f,g] o i1 = f and [f,g] o i2 = g
 
 --------------------------------------------------------------------------------
 
 # chapter 6: simple algebraic data types
 
 __product types__
+```idris
+product = Pair Int String
+-- though i would prefer if this was called 'Both'
+```
+
 __sum types__
+```idris
+coproduct = Either Int String
+```
+        
 
 --------------------------------------------------------------------------------
 
 # chapter 7: functors
 
 __functors__ (programming)
-__functors__ (category)
-__typeclass__ __interface__
+    ```
+    Main> :doc Functor
+    interface Prelude.Functor : (Type -> Type) -> Type
+      Functors allow a uniform action over a parameterised type.
+      @ f a parameterised type
+      Parameters: f
+      Constructor: MkFunctor
+      Methods:
+        map : (a -> b) -> f a -> f b
+          Apply a function across everything of type 'a' in a parameterised type
+          @ f the parameterised type
+          @ func the function to apply
+    ```
+
+    
+__functors__ (category)     :
+    functors map categories to categories (objects -> objects and morphisms to
+    morphisms) in such a way that, for a given functor F
+    1. identity is preserved: F id = id
+    2. composition is preserved: F (g o f) = F g o F f
+
+__interface__ __typeclass__ 
+    is a way of enforcing ccertain api are available. for instance (heh),
+    things that are of instance Functor must implement a 'map' function.
+    haskell calls these typeclasses, but i prefer interface.
+
 __prerealizer__ __reader__
+    https://hackage-content.haskell.org/package/mtl-2.3.2/docs/Control-Monad-Reader.html
+    basically takes in a function, and returns something that you can manually
+    invoke to actually execute that function.
+```idris
+record Prerealizer (r : Type) (a : Type) where
+    constructor MkPrerealizer
+    realize : r -> a
+
+Functor (Prerealizer r) where
+    map f (MkPrerealizer g) = MkPrerealizer (f . g)
+```
+     
 __functor laws__
+    1. identity is preserved: F id = id
+    2. composition is preserved: F (g o f) = F g o F f
 
 --------------------------------------------------------------------------------
 
 # chapter 8: functoriality
 
 __bifunctors__
+    bifunctors are functors which map two categories into one category.
+
 __universal property__
+    is a way of constructing a new category s.t it gives us a desired *property*,
+    for which the thing that is *universal* are either the terminal or initial
+    objects in that category.
+    degenerate example: the inital and terminal objects of any category C can be
+    defined by first constructing a new category C' from C by applying id to
+    everything, and then finding the initial and terminal objects of C'
+    less degenerate example: from a category C, we construct a new category C'
+    where:
+    1. objects are triples (X, X->a, X->b) an object X with projection functions
+    to any two objects a and b.
+    2. morphisms are maps from X -> Y (both X and Y are objects in C)
+    the actual **product** is the one that is the 'most general' among these
+    categories. in our case because we want the construction that is the
+    'tighest' (only has morphisms from X to X,a,b, we choose the terminal
+    object in C'.
+    objects satisfying the universal property are unique up to isomorphism, but this
+    is a collolary of the fact that they're terminal/initial objects in C'.
+
 __universal construction__
+    the process done in the example in [universal property] produces a universal
+    construction for a given universal property. many objects are defined through
+    this process; such as products, coproducts, and eventually the yoneda embedding.
+    
 __covariant__
+    'in the same direcdtion' : (a -> b) -> (a -> b)
+
 __contravariant__
+    'in the opposite direction' (a -> b) -> (b -> a)
+
 __covariant functor__
+    is one that doesn't flip the order of morphisms.
+
 __contravariant functor__
+    is one that does flip the order of morphisms. 
+
 __profunctor__
-__hom-functor__
+    is a special case of a bifunctor which is contravariant in the first argument
+    and covariant in the second.
+    (c -> a) -> (b -> d) -> f a b -> f c d
+
+__hom-functor__ :   denoted Hom(-,-): C^op x C -> Set
+    given objects a and b, it returns the collect of morphisms Hom(a,b). it
+    behaves like an identity on profunctor composition, (which is defined via
+    `coends`, not ordinary functor composition).
 
 --------------------------------------------------------------------------------
 
 # chapter 9: function types
 
-__internal hom__
-__external hom__
-__currying__
 __exponential__
+    is defined by a universal construction. take category C with arbitrary objects
+    a and b, we construct a new category C' with:
+    1. objects (X, f: X x a -> b)
+    2. morphisms are maps X -> y
+    the exponential is the terminal object in this category.
+    given that you need X x a to define the exponential, it's obvious to see
+    that a category must have a product in order to have an exponential.
+    (a -> b, or [a,b]) is usually denoted B^A
+    a different perspective is that exponentials are `right adjoint` to products
+    Hom(X x a, b) ≅ Hom(X, b^a)
+
+
+__internal hom__
+    is a bad word. just use [exponential] instead.
+
+__external hom__
+    is the collection of morphisms from any objects a and b in some category C,
+    this always exists. the duality between external and internal homs aren't
+    dual in any useful way, so it's better to just call external homs
+    `the collection of morhpisms from a to b' denoted 'Hom(a,b)' or C(a,b) instead
+
+__currying__
+    is the process of turning products into exponentials using the right
+    adjuction identity.
+    a x b -> c
+    ---------- curry
+    a -> b -> c
+
+__uncurrying__
+    does the opposite of currying, turns exponentials into products. do be careful
+    since exponentials are right associative. a -> b -> c means a -> (b -> c), not
+    (a -> b) -> c
+    a -> b -> c
+    ------------ uncurry
+    a x b -> c
+
 __cartesian closed__
-__cartesian closed categories__
+    a category is cartesian closed if it has
+    1. a terminal object
+    2. all binary products
+    3. exponentials of all pairs of objects
+    this word applies to things that aren't necessarily categories. such as preorders.
+    preorders which are cartesian closed are called `heyting algebras`. it's almost
+    a lattice, if you don't enforce antisymmetry through partial orders.
+    
 
 --------------------------------------------------------------------------------
 
 # chapter 10: natural transformations
 
 __natural transformation__
-__vertical composition__
-__horizontal composition__
+    a natural transformation is a morphism between functors.
+    categories C, D; functors F, G: C->D. the natural transformation is
+    alpha_a : F(a) -> G(a) for any object a in C s.t forall morphisms
+    f : a -> b in C
+    G(f) o alpha_a = alpha_b o F (f)
+    the above identity is called the `naturality square`
+
+
 __naturality__
+    the condition that makes a transformation "natural" -- the square above
+    commutes for all f. informally: the transformation doesn't depend on the
+    specific object, it works uniformly across the whole category.
+
+__vertical composition__
+    given natural transformations alpha: F => G and beta: G => H (same source
+    and target categories), compose component-wise:
+    (beta . alpha)_a = beta_a o alpha_a
+    this is just ordinary morphism composition at each object.
+
+__horizontal composition__
+    given alpha: F => G (functors C -> D) and beta: H => K (functors D -> E),
+    horizontal composition gives (beta * alpha): H o F => K o G.
+    mixes functor composition with natural transformations. interchanges
+    with vertical composition (interchange law).
+
 __n-category__
+    a category with morphisms between morphisms, up to n levels.
+    0-category: a set (objects only)
+    1-category: ordinary category (objects, morphisms)
+    2-category: has 2-morphisms between morphisms (natural transformations)
+    and so on. vertical and horizontal composition live here.
 
 ================================================================================
 part 2
