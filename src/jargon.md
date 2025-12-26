@@ -516,6 +516,49 @@ part 2
 
 # chapter 2: limits and colimits
 
+
+__index category__
+    is a category whose job is to draw out a desired diagram to be projected onto
+    a different category. for products, J would be the category 2, with two
+    objects and no morphism besides id.
+
+__diagram__ : denoted D: J → C
+    a functor from an index category J into C. picks out a "shape" of objects
+    and morphisms in C.
+
+__cone__
+    ingredients:
+    1. a source category C
+    2. an index category J
+    3. a functor D (called the diagram) : J -> C
+    when we apply D, the cone is an **apex** N in C with morphisms N->D(j)
+    forall j (indeces), commuting with D. alternatively, we can also use a
+    constant functor \Delta_c, which maps all indices in J to a single object in
+    C (our desired apex). the natural transformation from \Delta_c to D exactly
+    gives us a category of cones.
+    note that \Delta_c is not a single functor, but a whole family of them,
+    representing **all** of the ways to get an apex from J to some object
+    in C.
+
+__limit__
+    is the terminal cone of a diagram. in other words, it's the universal
+    construction which satisfies the property: being a cone, and don't have 
+    any morhpisms from your apex to another cone's apex. in my head i imagine
+    the limit to be the cone that is 'closest' to the category. all of the
+    other cones are taller, because of that extra morphism from their apex
+    to the limit's apex.
+
+__cocone__
+    does the exact opposite to the same diagram D : J -> C
+    the cocone has an apex N in C with morphisms D(j) -> N.
+    i imagine a pyamid digging into the ground.
+
+__colimit__
+    the initial object among cocones. it's also the closest to the category.
+    all of the other cocones are further away from the colimit, because there
+    is an extra morphism going from the colimit's apex to the other cocones'
+    apex.
+
 --------------------------------------------------------------------------------
 
 # chapter 3: free monoids
