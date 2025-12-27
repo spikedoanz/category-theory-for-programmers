@@ -54,7 +54,7 @@ we consider the naturality square if we set - = a
 
 rw [C(a,a) = id_a]
 
-  id_a   --- C(a,-)(g) --->    g
+  id_a   --- C(a,-)(g) ---> g
     |                       |
     |                       |
   alpha_a               alpha_x
@@ -79,7 +79,7 @@ we draw the full naturality square
 rw C(a,x) for arbitrary g : a -> x
 rw C(a,y) for application of C(a,-)(f) to C(a,x)
 
-    g       --- C(a,-)(f)  --->    f g
+    g --------- C(a,-)(f) ---> f . g
     |                            |
     |                            |
   alpha_x                    alpha_y
@@ -89,22 +89,23 @@ rw C(a,y) for application of C(a,-)(f) to C(a,x)
 
 going right, then down, we obtain
 
-alpha_y (f g)
+alpha_y (f . g)
 ------------- rw [*] where f g : a -> y
-F(f g)(p)
+F(f . g)(p)
 --------- rw [functor laws for F]
-F(f) F(g) (p)
+(F(f) . F(g)) (p)
+
 
 going down, then right, we obtain
 
-F(f) alpha_x g
+F(f) . (alpha_x g)
 -------------- rw [*] where g : a -> x
-F(f) F(g) (p)
+(F(f) . F(g)) (p)
 
 therefore, the full naturality square for alpha commutes (*1)
 
-let psi(p) := alpha  where  alpha_x (g) = F(g)(p)
-we know from (*1) that alpha commutes, so ψ(p) is also natural
+let psi(p) := alpha^p  where  alpha^p_x (g) := F(g)(p)
+we know from (*1) that alpha commutes, so psi(p) is also natural
 let phi(alpha) := alpha_a (id_a)
 
 now we show that 
@@ -170,12 +171,11 @@ therefore
 
 we have proven the yoneda lemma for a fixed object a and fixed functor F
 
-
 to prove that the yoneda lemma is natural in F, we need to show that
 forall natural transformations beta from F to an arbitrary functor G, beta is natural.
 
 
-  Nat(C(a,-), F) --- phi --- > F(a)
+  Nat(C(a,-), F) --- phi -------> F(a)
       |                             |
       |                             |
   beta_-                        beta_a
@@ -184,59 +184,62 @@ forall natural transformations beta from F to an arbitrary functor G, beta is na
   Nat(C(a,-),G) --- phi --- > G(a)
 
 
-going right down, we get : Nat(C(a,-), F) |-> phi (Nat(C(a,-), F)) = alpha_a (id_a) |-> beta_a (alpha_a (id_a))
-going down right, we get : Nat(C(a,-), F) |-> beta alpha         |-> phi (beta alpha) = beta_a (alpha_a (id_a))
+going right down, we get : alpha |-> phi (alpha) = alpha_a (id_a) 
+    |-> beta_a (alpha_a (id_a))
+going down right, we get : alpha |-> beta . alpha                 
+    |-> phi (beta . alpha) = (beta . alpha)_a (id_a) 
+    =   beta_a (alpha_a (id_a))
 
 by refl, these are equal, which shows that beta satisfies the naturality conditions.
 
 we also need to prove that the yoneda lemma is natural in a, which means showing that
 forall b
 forall f: b -> a
-let alpha := Nat(C(b,-),F)
+let alpha' := Nat(C(b,-),F)
 
-note: C(f,-)_a : C(b,b) -> C(b, a)
+note: C(f,-)_a : C(a,a) -> C(b, a)    given by    (g : a -> a) |-> (g . f : b -> a)
 
 the following square commutes:
   
-  alpha         --- phi --->  F(b)
+  alpha'        --- phi --->  F(b)
     |                             |
     |                             |
-  - o C(f,-)                     F(f)
+  - * C(f,-)                     F(f)
     |                             |
     V                             V
   Nat(C(a,-),F) --- phi ---> F(a)
 
-going right down, we get : alpha |-> yoneda alpha |-> F (f) (phi alpha)      = F(f) (alpha_b(id_b))
-going down right, we get : alpha |-> alpha o C(f,-) |-> phi (alpha o C(f,-)) = (alpha o C(f,-))_a (id_a)
+going right down, we get : alpha' |-> phi alpha' |-> F (f) (phi alpha')      = F(f) (alpha'_b(id_b))
+going down right, we get : alpha' |-> alpha' * C(f,-) |-> phi (alpha' * C(f,-)) = (alpha' * C(f,-))_a (id_a)
 
 for the diagram to commute, we need to prove
-F(f) (alpha_b(id_b)) = (alpha o C(f,-))_a (id_a)
+F(f) (alpha'_b(id_b)) = alpha'_a (C(f,-)_a (id_a))
 ------------------------------------------------ rw [vertical composition]
-F(f) (alpha_b(id_b)) = alpha_a (C(f,-)_a o id_a)
+F(f) (alpha'_b(id_b)) = alpha'_a (C(f,-)_a id_a)
 ---------------------------------------------- rw [definition of C(f,-)_a]
-F(f) (alpha_b(id_b)) = alpha_a (id_a o f)
+F(f) (alpha'_b(id_b)) = alpha'_a (id_a . f)
 ----------------------------------------- simp
-F(f) (alpha_b(id_b)) = alpha_a f
+F(f) (alpha'_b(id_b)) = alpha'_a f
 
 the above holds if the following diagram commutes
 
-  C(b,b) --- C(b,f) ---> C(b,a)
-    |                       |
-  alpha_b                     alpha_a
-    |                       |
-    V                       V
-  F(b)  ----- F(f) ----->  F(a)
+  C(b,b) --- C(b,-)(f) ---> C(b,a)
+    |                          |
+  alpha'_b                 alpha'_a
+    |                          |
+    V                          V
+  F(b)  ----- F(f) ------->  F(a)
 
-going right down, we get : (alpha_a  C(b,f)) C(b,b)
-going down right, we get : (F(f) alpha_b) C(b,b)
+going right down, we get : id_b |-> f . id_b = f    |-> alpha'_a (f)
+going down right, we get : id_b |-> alpha'_b (id_b) |-> F(f) (alpha'_b (id_b))
 
-alpha is natural, so we have that
-F(f) alpha_b = alpha_a C(b,f) (*2)
+alpha' is natural, so we have that
+F(f) . alpha'_b = alpha'_a . C(b,-)(f)    (*2)
 
-(alpha_a  C(b,f)) C(b,b) = (F(f) alpha_b) C(b,b)
------------------------------------------------ rw [*2]
-(alpha_a  C(b,f)) C(b,b) = (alpha_a C(b,f)) C(b,b)
--------------------------------------------------- refl
+alpha'_a (f) = F(f) (alpha'_b (id_b))
+------------------------------------- rw [naturality of alpha' at f : b -> a, applied to id_b]
+alpha'_a (f) = alpha'_a (f)
+--------------------------- refl
 []
 
 QED
