@@ -9,7 +9,8 @@ have:
   F         : Functor (arbitrary)
   a         : Object in C
   C(a,-)    : Hom-functor / Presheaf
-              this is both for objects C(a,x) and morphisms C(a,-)(f)
+              this is both for objects C(a,x) and 
+              morphisms C(a,-)(f) (this means action of hom-functor on morphism f)
   Nat       : Natural transformation
               otherwise read as alpha_x : C(a,x) -> F(x) forall x
 prove
@@ -23,7 +24,7 @@ proof sketch:
         |                           │
         |                           V
         |                     full square -> (*1)
-        |                           -
+        |                           |
         V                           V
     define phi                  define psi (needs (*1) for well-definedness)
         |                           |
@@ -52,7 +53,7 @@ we consider the naturality square if we set - = a
     V                         V
   F(a) ----- F(g) ------>   F(x) 
 
-rw [C(a,a) = id_a]
+evaluate C(a,a) at id_a in C(a,a)
 
   id_a   --- C(a,-)(g) ---> g
     |                       |
@@ -62,9 +63,9 @@ rw [C(a,a) = id_a]
     V                       V
     p ----- F(g) ------> F(g)(p) = alpha_x g
 
-since the right side is a constant for a fixed a, we have that
-forall g: a -> x, forall x
-alpha_x g = F(g)(p) (*)
+therefore, when we fix p:
+  forall g: a -> x, forall x
+  alpha_x g = F(g)(p) (*)
 
 we draw the full naturality square 
 
@@ -102,24 +103,30 @@ F(f) . (alpha_x g)
 -------------- rw [*] where g : a -> x
 (F(f) . F(g)) (p)
 
-therefore, the full naturality square for alpha commutes (*1)
+therefore, the full naturality square commutes when we define alpha^p_x(g) := F(g)(p) (*1)
 
-let psi(p) := alpha^p  where  alpha^p_x (g) := F(g)(p)
-we know from (*1) that alpha commutes, so psi(p) is also natural
+
+this means alpha^p is a natural transformation, so psi is well-defined:
+  psi : F(a) -> Nat(C(a,-), F)
+  psi(p) := alpha^p         where       alpha^p_x (g) := F(g)(p)
+
+we know from (*1) that alpha^p commutes, so psi(p) is a natural transformation
 let phi(alpha) := alpha_a (id_a)
 
 now we show that 
 
-phi(psi(p)) = id p 
+phi(psi(p)) = p 
 ---------------- rw [definition of psi]
-phi(alpha) = id p
+phi(alpha^p) = p
 ----------------- rw [definition of phi]
-alpha_a (id_a) = id p
---------------------- rw [definition of p]
-alpha_a (id_a) = id alpha_a (id_a)
----------------------------------- rw [apply id]
-alpha_a (id_a) = alpha_a (id_a)
-------------------------------- refl
+alpha^p_a (id_a) = p
+--------------------- rw [definition of alpha^p]
+F(id_a)(p) = p
+-------------- rw [functor preserves identity]
+id_{F(a)}(p) = p
+---------------- rw [apply id]
+p = p
+----- refl
 []
 
 
@@ -147,9 +154,9 @@ consider the naturality square for C(a,a), C(a,x)
     V                       V
   F(a) ----- F(g) ------> F(x) 
 
-rw [uniqueness of id C(a,a)]
+rw [uniqueness of id_a in C(a,a)]
 
-   id ------------- C(a,-)(g) -----> g
+   id_a  ---------- C(a,-)(g) -----> g
     |                                |
     |                                |
   alpha_a                        alpha_x
@@ -171,7 +178,9 @@ therefore
 
 we have proven the yoneda lemma for a fixed object a and fixed functor F
 
-to prove that the yoneda lemma is natural in F, we need to show that
+--------------------------------------------------------------------------------
+
+to prove that the yoneda lemma describes a natural isomorphism in F, we need to show that
 forall natural transformations beta from F to an arbitrary functor G, beta is natural.
 
 
@@ -192,10 +201,10 @@ going down right, we get : alpha |-> beta . alpha
 
 by refl, these are equal, which shows that beta satisfies the naturality conditions.
 
-we also need to prove that the yoneda lemma is natural in a, which means showing that
+we also need to prove that the yoneda lemma describes a natural isomorphism in a, which means showing that
 forall b
 forall f: b -> a
-let alpha' := Nat(C(b,-),F)
+let alpha' in Nat(C(b,-),F)
 
 note: C(f,-)_a : C(a,a) -> C(b, a)    given by    (g : a -> a) |-> (g . f : b -> a)
 
