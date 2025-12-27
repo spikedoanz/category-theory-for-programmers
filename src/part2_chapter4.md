@@ -55,22 +55,22 @@ as such, it is exactly Hom(r,a), which is isomorphic to Hom(r,a). waow!
 4. Using Stream representation, memoize a function that squares its argument.
 
 ```idris
-interface Functor f => Representable (f : Type -> Type) where
-  Rep : Type
-  tabulate : (Rep -> a) -> f a
-  index : f a -> Rep -> a
-
-Representable Stream where
-  Rep = Nat
-  tabulate f = f 0 :: tabulate (f . S)
-  index (x :: _)    Z       = x
-  index (_ :: xs)   (S n)   = index xs n
-
-squares : Stream Nat
-squares = tabulate (\n => n*n)
-
-memoizedSquares : Nat -> Nat
-memoizedSquares n = index squares n
+-- interface Functor f => Representable (f : Type -> Type) where
+--   Rep : Type
+--   tabulate : (Rep -> a) -> f a
+--   index : f a -> Rep -> a
+-- 
+-- Representable Stream where
+--   Rep = Nat
+--   tabulate f = f 0 :: tabulate (f . S)
+--   index (x :: _)    Z       = x
+--   index (_ :: xs)   (S n)   = index xs n
+-- 
+-- squares : Stream Nat
+-- squares = tabulate (\n => n*n)
+-- 
+-- memoizedSquares : Nat -> Nat
+-- memoizedSquares n = index squares n
 
 ```
 
@@ -81,13 +81,23 @@ memoizedSquares n = index squares n
    other. (Hint: use induction.)
 
 ```idris
+interface Functor f => Representable (f : Type -> Type) where
+  Rep : Type
+  tabulate : (Rep -> a) -> f a
+  index : f a -> Rep -> a
+
+Representable Stream where
+  Rep = Nat
+  tabulate f = f 0 :: tabulate (\x => f (S x))
+  index (x :: _)    Z       = x
+  index (_ :: xs)   (S n)   = index xs n
+
 -- all three of these hang
---idProof : (f: Nat -> Nat) -> (n : Nat) -> index (tabulate f {f = Stream}) n = f n
---idProof f Z     = Refl
---idProof f (S k) = assert_total $ idProof (f . S) k
+idProof : (f: Nat -> Nat) -> (n : Nat) -> index (tabulate f {f = Stream}) n = f n
+idProof f Z     = Refl
+-- idProof f (S k) = idProof (f . S) k
 -- idProof f (S k) = rewrite sym (idProof (f . S) k) in Refl
--- idProof f (S k) = idProof (\m => f (S m)) k
--- this proof by all means should be correct, but hangs forever due to an unknown issue.
+idProof f (S k) = idProof (\m => f (S m)) k
 ```
 
 6. The functor:
