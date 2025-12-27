@@ -53,7 +53,7 @@ we consider the naturality square if we set - = a
     V                         V
   F(a) ----- F(g) ------>   F(x) 
 
-evaluate C(a,a) at id_a in C(a,a)
+specialize C(a,a) to id_a
 
   id_a   --- C(a,-)(g) ---> g
     |                       |
