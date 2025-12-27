@@ -13,8 +13,10 @@ have:
               morphisms C(a,-)(f) (this means action of hom-functor on morphism f)
   Nat       : Natural transformation
               otherwise read as alpha_x : C(a,x) -> F(x) forall x
-prove
-  Nat(C(a,-),F(-)) ≅ F a
+prove:
+  Nat(C(a,-),F(-)) ≅ F a ("the" yoneda lemma)
+  + the above is naturally isomorphic in F
+  + the above is naturally isomorphic in a
 
 proof sketch:
     define p
@@ -47,9 +49,7 @@ we consider the naturality square if we set - = a
 
   C(a,a) --- C(a,-)(g) ---> C(a,x)
     |                         |
-    |                         |
   alpha_a                 alpha_x
-    |                         |
     V                         V
   F(a) ----- F(g) ------>   F(x) 
 
@@ -57,9 +57,7 @@ specialize C(a,a) to id_a
 
   id_a   --- C(a,-)(g) ---> g
     |                       |
-    |                       |
   alpha_a               alpha_x
-    |                       |
     V                       V
     p ----- F(g) ------> F(g)(p) = alpha_x g
 
@@ -71,22 +69,18 @@ we draw the full naturality square
 
   C(a,x) --- C(a,-)(f) ---> C(a,y)
     |                       |
-    |                       |
   alpha_x               alpha_y
-    |                       |
     V                       V
   F(x) ----- F(f) ------> F(y) 
 
 rw C(a,x) for arbitrary g : a -> x
 rw C(a,y) for application of C(a,-)(f) to C(a,x)
 
-    g --------- C(a,-)(f) ---> f . g
-    |                            |
-    |                            |
-  alpha_x                    alpha_y
-    |                            |
-    V                            V
- alpha_x g  ----- F(f) ------>  ???
+    g ------ C(a,-)(f) ---> f . g
+    |                         |
+  alpha_x                 alpha_y
+    V                         V
+ alpha_x g --- F(f) ------>  ???
 
 going right, then down, we obtain
 
@@ -104,7 +98,6 @@ F(f) . (alpha_x g)
 (F(f) . F(g)) (p)
 
 therefore, the full naturality square commutes when we define alpha^p_x(g) := F(g)(p) (*1)
-
 
 this means alpha^p is a natural transformation, so psi is well-defined:
   psi : F(a) -> Nat(C(a,-), F)
@@ -148,7 +141,6 @@ consider the naturality square for C(a,a), C(a,x)
 
   C(a,a) --- C(a,-)(g) ---> C(a,x)
     |                       |
-    |                       |
   alpha_a               alpha_x
     |                       |
     V                       V
@@ -158,9 +150,7 @@ rw [uniqueness of id_a in C(a,a)]
 
    id_a  ---------- C(a,-)(g) -----> g
     |                                |
-    |                                |
   alpha_a                        alpha_x
-    |                                |
     V                                V
   alpha_a (id_a) ----- F(g) ------> alpha_x (g) / F(g) alpha_a (id_a)
 
@@ -186,9 +176,7 @@ forall natural transformations beta from F to an arbitrary functor G, beta is na
 
   Nat(C(a,-), F) --- phi -------> F(a)
       |                             |
-      |                             |
   beta_-                        beta_a
-      |                             |
       V                             V
   Nat(C(a,-),G) --- phi --- > G(a)
 
@@ -206,26 +194,24 @@ forall b
 forall f: b -> a
 let alpha' in Nat(C(b,-),F)
 
-note: C(f,-)_a : C(a,a) -> C(b, a)    given by    (g : a -> a) |-> (g . f : b -> a)
+note: C(-,a)(f) : C(a,a) -> C(b, a)    given by    (g : a -> a) |-> (g . f : b -> a)
 
 the following square commutes:
   
   alpha'        --- phi --->  F(b)
     |                             |
-    |                             |
-  - * C(f,-)                     F(f)
-    |                             |
+  - * C(-,a)(f)                     F(f)
     V                             V
   Nat(C(a,-),F) --- phi ---> F(a)
 
 going right down, we get : alpha' |-> phi alpha' |-> F (f) (phi alpha')      = F(f) (alpha'_b(id_b))
-going down right, we get : alpha' |-> alpha' * C(f,-) |-> phi (alpha' * C(f,-)) = (alpha' * C(f,-))_a (id_a)
+going down right, we get : alpha' |-> alpha' * C(-,a)(f) |-> phi (alpha' * C(-,a)(f)) = (alpha' * C(-,a)(f))_a (id_a)
 
 for the diagram to commute, we need to prove
-F(f) (alpha'_b(id_b)) = alpha'_a (C(f,-)_a (id_a))
+F(f) (alpha'_b(id_b)) = (alpha' * C(-,a)(f))_a (id_a)
 ------------------------------------------------ rw [vertical composition]
-F(f) (alpha'_b(id_b)) = alpha'_a (C(f,-)_a id_a)
----------------------------------------------- rw [definition of C(f,-)_a]
+F(f) (alpha'_b(id_b)) = alpha'_a (C(-,a)(f)_a id_a)
+---------------------------------------------- rw [definition of C(-,a)(f)_a]
 F(f) (alpha'_b(id_b)) = alpha'_a (id_a . f)
 ----------------------------------------- simp
 F(f) (alpha'_b(id_b)) = alpha'_a f
@@ -235,7 +221,6 @@ the above holds if the following diagram commutes
   C(b,b) --- C(b,-)(f) ---> C(b,a)
     |                          |
   alpha'_b                 alpha'_a
-    |                          |
     V                          V
   F(b)  ----- F(f) ------->  F(a)
 
