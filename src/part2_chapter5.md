@@ -9,11 +9,34 @@ have:
   F         : Functor (arbitrary)
   a         : Object in C
   C(a,-)    : Hom-functor / Presheaf
-              this is both for objects C(a,x) and morphisms C(a,f)
+              this is both for objects C(a,x) and morphisms C(a,-)(f)
   Nat       : Natural transformation
               otherwise read as alpha_x : C(a,x) -> F(x) forall x
 prove
   Nat(C(a,-),F(-)) ≅ F a
+
+proof sketch:
+    define p
+        |
+        V
+    naturality square at a --> equation (*)
+        |                           │
+        |                           V
+        |                     full square -> (*1)
+        |                           -
+        V                           V
+    define phi                  define psi (needs (*1) for well-definedness)
+        |                           |
+        |-----------|---------------|
+        V           V               
+      phipsi = id   psiphi= id (needs naturality again)
+        |           |
+        V           V
+        isomorphism
+            |
+        |-------|
+        V       V
+     nat in F   nat in a (needs (*2))
 
 proof:
 
@@ -21,17 +44,17 @@ let p := alpha_a id_a, which is in F(a)
 let g : a -> x
 we consider the naturality square if we set - = a
 
-  C(a,a) --- C(a,g) ---> C(a,x)
-    |                       |
-    |                       |
-  alpha_a               alpha_x
-    |                       |
-    V                       V
-  F(a) ----- F(g) ------> F(x) 
+  C(a,a) --- C(a,-)(g) ---> C(a,x)
+    |                         |
+    |                         |
+  alpha_a                 alpha_x
+    |                         |
+    V                         V
+  F(a) ----- F(g) ------>   F(x) 
 
 rw [C(a,a) = id_a]
 
-  id_a   --- C(a,g) --->    g
+  id_a   --- C(a,-)(g) --->    g
     |                       |
     |                       |
   alpha_a               alpha_x
@@ -45,7 +68,7 @@ alpha_x g = F(g)(p) (*)
 
 we draw the full naturality square 
 
-  C(a,x) --- C(a,f) ---> C(a,y)
+  C(a,x) --- C(a,-)(f) ---> C(a,y)
     |                       |
     |                       |
   alpha_x               alpha_y
@@ -54,9 +77,9 @@ we draw the full naturality square
   F(x) ----- F(f) ------> F(y) 
 
 rw C(a,x) for arbitrary g : a -> x
-rw C(a,y) for application of C(a,f) to C(a,x)
+rw C(a,y) for application of C(a,-)(f) to C(a,x)
 
-    g       --- C(a,f)  --->    f g
+    g       --- C(a,-)(f)  --->    f g
     |                            |
     |                            |
   alpha_x                    alpha_y
@@ -115,7 +138,7 @@ F(g)(alpha_a(id_a)) = alpha_x(g)
 
 consider the naturality square for C(a,a), C(a,x)
 
-  C(a,a) --- C(a,g) ---> C(a,x)
+  C(a,a) --- C(a,-)(g) ---> C(a,x)
     |                       |
     |                       |
   alpha_a               alpha_x
@@ -125,7 +148,7 @@ consider the naturality square for C(a,a), C(a,x)
 
 rw [uniqueness of id C(a,a)]
 
-   id           --- C(a,g) --->      g
+   id ------------- C(a,-)(g) -----> g
     |                                |
     |                                |
   alpha_a                        alpha_x
