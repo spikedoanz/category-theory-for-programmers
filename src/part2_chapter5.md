@@ -264,38 +264,93 @@ psi fa h = fmap h fa
 
 ```
 
+this proof was zero shot by opus after i plugged in my explicit proof of the
+yoneda lemma:
 ```idris
-phi : Functor f => 
-    (forall x . (a -> x) -> f x) -> f a
-phi alpha = alpha id
+record LawfulFunctor (f : Type -> Type) where
+  constructor MkLawfulFunctor
+  fmap : forall a, b. (a -> b) -> f a -> f b
+  identity : forall a. (fa : f a) -> fmap Prelude.id fa = fa
+  composition : forall a, b, c. (g : a -> b) -> (h : b -> c) -> (fa : f a)
+             -> fmap (h . g) fa = fmap h (fmap g fa)
 
-psi : Functor f => 
-    f a -> (forall x . (a -> x) -> f x)
-psi fa h = map h fa
+Reader : Type -> Type -> Type
+Reader a x = a -> x
 
-phiPsi : Functor f => (fa : f a) -> phi (psi fa) = fa
+ReaderFunctor : (a : Type) -> LawfulFunctor (Reader a)
+ReaderFunctor a = MkLawfulFunctor
+  (\h, g => h . g)
+  (\g => Refl)
+  (\g, h, k => Refl)
 
-phiPsiMaybe : (fa : Maybe a) -> phi {f=Maybe} (psi fa) = fa
-phiPsiMaybe Nothing = Refl
-phiPsiMaybe (Just x) = Refl
+record NatTrans (f, g : Type -> Type) (ff : LawfulFunctor f) (fg : LawfulFunctor g) where
+  constructor MkNat
+  component : forall x. f x -> g x
+  naturality : forall x, y. (h : x -> y) -> (fx : f x)
+            -> fmap fg h (component fx) = component (fmap ff h fx)
 
-psiPhi : Functor f => (alpha : forall x. (a -> x) -> f x) 
-      -> (y : Type) -> (h : a -> y) -> psi (phi alpha) h = alpha h
+phi : (ff : LawfulFunctor f) 
+   -> NatTrans (Reader a) f (ReaderFunctor a) ff 
+   -> f a
+phi ff nt = component nt Prelude.id
 
+psi : (ff : LawfulFunctor f)
+   -> (fa : f a)
+   -> NatTrans (Reader a) f (ReaderFunctor a) ff
+psi ff fa = MkNat
+  (\h => fmap ff h fa)
+  (\h, g => sym (composition ff g h fa))
 
-testPhi : Int -> Maybe Int
-testPhi x = phi (\f => Just (f x))
+phiPsi : (ff : LawfulFunctor f)
+      -> (fa : f a)
+      -> phi ff (psi ff fa) = fa
+phiPsi ff fa = identity ff fa
 
-testPsi : Int -> Maybe String
-testPsi x = psi (Just x) show
+psiPhi : (ff : LawfulFunctor f)
+      -> (nt : NatTrans (Reader a) f (ReaderFunctor a) ff)
+      -> (h : a -> x)
+      -> component (psi ff (phi ff nt)) h = component nt h
+psiPhi ff nt h = rewrite sym (naturality nt h Prelude.id) in Refl
 ```
+
+--------------------------------------------------------------------------------
 
 2. A discrete category is one that has objects but no morphisms other than
    identity morphisms. How does the Yoneda lemma work for functors from such a
    category?
+
+C(a,-) will just be
+  cases - of
+  a => {id_a}
+  _ => {}
+
+the yoneda lemma says that maps out of C(a,-) will be entirely determined by
+what F does to a, which in this case, does nothing besides pick an element out
+of F a.
+
+--------------------------------------------------------------------------------
 
 3. A list of units [()] contains no other information but its length. So, as a
    data type, it can be considered an encoding of integers. An empty list
    encodes zero, a singleton [()] (a value, not a type) encodes one, and so on.
    Construct another representation of this data type using the Yoneda lemma
    for the list functor.
+
+in other words, this question is asking, 
+specialize a = ()
+specialize F = List
+show: what does the lhs of this expression look like?
+
+Nat( C( () , -), List) ≅ List ()
+
+so basically, what is:
+
+Nat( C( () , -), List)?
+
+well, in idris, this is
+```idris
+lhs : forall x. (() -> x) -> List x
+lhs lam = [] -- or literally whatever you want
+```
+
+
