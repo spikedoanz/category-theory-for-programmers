@@ -635,6 +635,119 @@ __underlying set__
 
 # chapter 4: representable functors
 
+__covariant hom-functor__ : denoted C(a, -) or Hom(a, -)
+  fix the first argument of the hom-functor to object a.
+  - on objects: sends x to the hom-set C(a, x)
+  - on morphisms: sends f : x -> y to postcomposition (f ∘ -)
+    i.e., C(a, f) : C(a, x) -> C(a, y) by h ↦ f ∘ h
+  ~
+  covariant because: given h : a -> x and f : x -> y, we can postcompose
+  to get f ∘ h : a -> y. the morphism f points the same direction as the
+  lifted map C(a, x) -> C(a, y).
+  ~
+  in Haskell, this is the Reader functor: Reader a x = a -> x
+
+__contravariant hom-functor__ : denoted C(-, a) or Hom(-, a)
+  fix the second argument of the hom-functor to object a.
+  - on objects: sends x to the hom-set C(x, a)
+  - on morphisms: sends f : x -> y to precomposition (- ∘ f)
+    i.e., C(f, a) : C(y, a) -> C(x, a) by h ↦ h ∘ f
+  ~
+  contravariant because: given h : y -> a and f : x -> y, we can precompose
+  to get h ∘ f : x -> a. f : x -> y induces a map going backwards:
+  C(y, a) -> C(x, a).
+  ~
+  in Haskell, this is the Op functor: Op a x = x -> a
+
+__natural isomorphism__
+  a natural transformation α : F => G where every component α_x is an
+  isomorphism. equivalently, there exists a natural transformation
+  β : G => F such that α ∘ β = id and β ∘ α = id.
+  ~
+  "naturally isomorphic" describes the relationship between two functors.
+  "isomorphic natural transformation" emphasizes the morphism itself.
+  same content, different emphasis.
+  ~
+  the word "natural" does double duty:
+  1. technical: refers to natural transformations
+  2. intuitive: the isomorphism is "canonical" or "uniform" across all objects
+  ~
+  this is the origin of the term "natural transformation"—Eilenberg and
+  Mac Lane chose "natural" because it captures what mathematicians meant
+  when they said something was "naturally" or "canonically" defined,
+  independent of arbitrary choices.
+  ~
+  when two functors are naturally isomorphic, they are considered "the same"
+  for most purposes—they carry the same information, structured the same way.
+
+__representable functor__
+  aka: covariant representable functor.
+  a functor F : C -> Set that is naturally isomorphic to C(a, -) for some
+  object a. equivalently, F x ≅ (a -> x) uniformly across all x.
+  ~
+  witnessed by two natural transformations that are inverses:
+      tabulate :: (a -> x) -> F x
+      index    :: F x -> (a -> x)
+  ~
+  intuition: F is a "memoized function" -- a data structure storing exactly
+  the same information as a function from the representing object.
+  ~
+  examples:
+      Stream x ≅ (Nat -> x)       -- infinite list indexed by position
+      Pair x   ≅ (Bool -> x)      -- two slots indexed by true/false
+      Reader a ≅ (a -> x)         -- trivially representable by a
+  ~
+  non-examples:
+      List    -- empty list breaks index (no x to return)
+      Maybe   -- Nothing breaks index
+      Either  -- sum types don't have all values present simultaneously
+  ~
+  product-type functors are often representable; sum-type functors are not.
+  this is because C(a, -) preserves limits (products) but not colimits (sums).
+
+__contravariant representable functor__
+  a contravariant functor F : C^op -> Set that is naturally isomorphic to
+  C(-, a) for some object a. equivalently, F x ≅ (x -> a) uniformly.
+  ~
+  example: Op a x = x -> a is trivially contravariant representable by a.
+
+__witness__
+  a term or morphism that provides evidence for some property or
+  relationship. "to witness" means to provide such evidence.
+  ~
+  e.g., tabulate and index witness the isomorphism between F and C(a, -).
+  e.g., a homomorphism h : m -> n witnesses a quotient of the free monoid.
+  e.g., a natural transformation α : F => G witnesses a relationship
+        between functors.
+  ~
+  in type theory, this corresponds to providing a term that inhabits a
+  proposition-as-type.
+
+__tabulate__
+  one half of the natural isomorphism witnessing representability.
+  tabulate :: (Rep f -> x) -> f x
+  ~
+  converts a function into a data structure. "memoizes" the function
+  by storing its values in the representable functor.
+  ~
+  e.g., for Stream: tabulate f = f 0 :: tabulate (f . S)
+  e.g., for Pair:   tabulate f = Pair (f False) (f True)
+
+__index__
+  the other half of the natural isomorphism witnessing representability.
+  index :: f x -> Rep f -> x
+  ~
+  converts a data structure into a function. "looks up" a value in the
+  representable functor by its key/index.
+  ~
+  e.g., for Stream: index (x :: xs) n = if n == 0 then x else index xs (n-1)
+  e.g., for Pair:   index (Pair a b) b = if b then b else a
+  ~
+  tabulate and index must be inverses:
+      index . tabulate = id
+      tabulate . index = id
+    
+
 --------------------------------------------------------------------------------
 
 # chapter 5: the yoneda lemma
