@@ -261,7 +261,6 @@ phi alpha = alpha id
 
 psi :: F a -> (forall x . (a -> x) -> F x)
 psi fa h = fmap h fa
-
 ```
 
 this proof was zero shot by opus after i plugged in my explicit proof of the
