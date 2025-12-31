@@ -752,6 +752,76 @@ __index__
 
 # chapter 5: the yoneda lemma
 
+__discrete category__
+  a category with only identity morphisms. no arrows between distinct
+  objects.
+  ~
+  equivalently: a set viewed as a category. objects are elements,
+  morphisms are just id_a for each object a.
+  ~
+  Yoneda is trivial in discrete categories—no morphisms means no
+  naturality constraints, so natural transformations are just picking
+  elements freely.
+
+__functor category__ : denoted [C, D] or D^C
+  a category where:
+  - objects are functors F : C -> D
+  - morphisms are natural transformations α : F => G
+  ~
+  composition is vertical composition of natural transformations.
+  identity is the identity natural transformation.
+  ~
+  notation:
+  - [C, D] or D^C for the category itself
+  - [C, D](F, G) or Nat(F, G) for the hom-set of natural transformations F => G
+  ~
+  the Yoneda lemma can be restated as:
+  [C, Set](C(a,-), F) ≅ F a
+
+__Yoneda lemma__
+  the statement that, for any functor F : C -> Set and object a in C:
+  ~
+  Nat(C(a,-), F) ≅ F a
+  ~
+  natural transformations from the hom-functor to F are in bijection with
+  elements of F a.
+  ~
+  the isomorphism is witnessed by:
+      phi : Nat(C(a,-), F) -> F a
+      phi(α) = α_a(id_a)
+      ~
+      psi : F a -> Nat(C(a,-), F)
+      psi(p) = α^p    where    α^p_x(g) = F(g)(p)
+  ~
+  intuition: a natural transformation is completely determined by where it
+  sends id_a. this value "propagates" to all other components via naturality.
+  id_a is the universal probe because every morphism g : a -> x factors as
+  g ∘ id_a.
+  ~
+  the isomorphism is natural in both F and a.
+  ~
+  special case: when F = C(b,-), Yoneda gives:
+      Nat(C(a,-), C(b,-)) ≅ C(b, a)
+  natural transformations between hom-functors are just morphisms in C.
+  this is the Yoneda embedding—it lifts morphisms to natural transformations,
+  and is full and faithful (bijection on hom-sets).
+  ~
+  note: the proof only requires F to be a functor and naturality to hold.
+  Set-valued is needed to make "evaluate at id_a" meaningful, but can be
+  generalized via global points in enriched settings.
+
+__co-Yoneda__
+  the contravariant version of the Yoneda lemma:
+  ~
+  Nat(C(-,a), F) ≅ F a
+  ~
+  where F : C^op -> Set is a contravariant functor (presheaf).
+  ~
+  the proof is dual. id_a is still the nucleation point—it's self-dual.
+  the difference is propagation via precomposition rather than postcomposition.
+  ~
+  in Haskell:
+      forall x. (x -> a) -> F x  ≅  F a
 
 --------------------------------------------------------------------------------
 
