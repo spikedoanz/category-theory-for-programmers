@@ -8,7 +8,7 @@ have:
   C         : Category
   F         : Functor (arbitrary)
   a         : Object in C
-  C(a,-)    : Hom-functor / Presheaf
+  C(a,-)    : Hom-functor
               this is both for objects C(a,x) and 
               morphisms C(a,-)(f) (this means action of hom-functor on morphism f)
   Nat       : Natural transformation
