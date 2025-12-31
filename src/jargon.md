@@ -712,16 +712,16 @@ __contravariant representable functor__
   example: Op a x = x -> a is trivially contravariant representable by a.
 
 __witness__
-  a term or morphism that provides evidence for some property or
-  relationship. "to witness" means to provide such evidence.
-  ~
-  e.g., tabulate and index witness the isomorphism between F and C(a, -).
-  e.g., a homomorphism h : m -> n witnesses a quotient of the free monoid.
-  e.g., a natural transformation α : F => G witnesses a relationship
-        between functors.
-  ~
-  in type theory, this corresponds to providing a term that inhabits a
-  proposition-as-type.
+    a term or morphism that provides evidence for some property or
+    relationship. "to witness" means to provide such evidence.
+    ~
+    e.g., tabulate and index witness the isomorphism between F and C(a, -).
+    e.g., a homomorphism h : m -> n witnesses a quotient of the free monoid.
+    e.g., a natural transformation α : F => G witnesses a relationship
+          between functors.
+    ~
+    in type theory, this corresponds to providing a term that inhabits a
+    proposition-as-type.
 
 __tabulate__
   one half of the natural isomorphism witnessing representability.
@@ -751,6 +751,7 @@ __index__
 --------------------------------------------------------------------------------
 
 # chapter 5: the yoneda lemma
+
 
 --------------------------------------------------------------------------------
 
